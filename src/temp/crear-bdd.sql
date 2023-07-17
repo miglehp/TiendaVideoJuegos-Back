@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `ecomercedb`.`games` (
   `developers` MEDIUMTEXT NULL,
   `publishers` MEDIUMTEXT NULL,
   `price` FLOAT NULL,
-  `release_date` DATE NULL,
+  `release_date` VARCHAR(30) NULL,
   `support_info_url` VARCHAR(200) NULL,
   `suport_info_email` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
