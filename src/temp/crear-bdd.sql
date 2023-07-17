@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `ecomercedb`.`games` ;
 CREATE TABLE IF NOT EXISTS `ecomercedb`.`games` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `steam_app_id` INT NOT NULL,
+  `name` TINYTEXT NULL,
   `detailed_description` LONGTEXT NULL,
   `about_the_game` MEDIUMTEXT NULL,
   `short_description` TINYTEXT NULL,
