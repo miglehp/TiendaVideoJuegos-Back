@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `ecomercedb`.`games` ;
 CREATE TABLE IF NOT EXISTS `ecomercedb`.`games` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `steam_app_id` INT NOT NULL,
+  `name` TINYTEXT NULL,
   `detailed_description` LONGTEXT NULL,
   `about_the_game` MEDIUMTEXT NULL,
   `short_description` TINYTEXT NULL,
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `ecomercedb`.`games` (
   `developers` MEDIUMTEXT NULL,
   `publishers` MEDIUMTEXT NULL,
   `price` FLOAT NULL,
-  `release_date` DATE NULL,
+  `release_date` VARCHAR(30) NULL,
   `support_info_url` VARCHAR(200) NULL,
   `suport_info_email` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
