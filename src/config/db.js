@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
-
-import 'dotenv/config';
+require('dotenv/config');
 
 const dbPort = Number(process.env.DBport) ?? 3306;
 
