@@ -66,4 +66,8 @@ const insertGenreAndRelationIfNotExists = async (gameId, genre) => {
   }
 };
 
-module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists };
+const getById = (gameId) => {
+  return db.query('select * from games where id = ?', [gameId]);
+}
+
+module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists, getById };

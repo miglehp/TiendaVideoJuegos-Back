@@ -23,4 +23,20 @@ const insertOneGame = async (req, res) => {
   }
 };
 
-module.exports = { getAll, insertOneGame };
+const getGame = async (req, res) => {
+
+  try {
+      //Si lanzamos un SELECT, el resultado SIEMPRE es un array
+      const [games] = await gamesModel.getById(req.params.gameId);
+      //Como la query se está lanzando sobre un resultado UNIQUE(id), el resultado es un array con un cliente (el id existe) o un array con cero games (el id NO existe)
+      if (games.length === 0) {
+          return res.json({ fatal: 'No existe un cliente con ese ID' });
+      }
+      res.json(games[0]);
+
+  } catch (error) {
+      res.json({ fatal: error.message });
+  }
+}
+
+module.exports = { getAll, insertOneGame, getGame };
