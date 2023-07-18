@@ -1,12 +1,28 @@
 @host = http://localhost
 @port = 3000
 @apiUsers = /api/users
+@apiGames = /api/games
 
 POST {{host}}:{{port}}{{apiUsers}}
 Content-Type: application/json
+
 {
-    "username": "",
-    "password": "",
-    "email": "",
-    "fecha_nacimiento": ""
+    "username": "holi",
+    "password": "holamigos",
+    "email": "yepa@gmail.com",
+    "fecha_nacimiento": "1980-12-05"
+}
+###
+
+PUT {{host}}:{{port}}{{apiUsers}}/1
+Content-Type: application/json
+
+{
+    "username": "rafael",
+    "password": "holamigos",
+    "email": "otro@gmail.com",
+    "active": 0,
+    "fecha_nacimiento": "1980-06-05",
+    "foto_perfil_url": "",
+    "validado": 0
 }
