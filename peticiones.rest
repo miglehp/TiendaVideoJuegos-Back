@@ -3,6 +3,14 @@
 @apiUsers = /api/users
 @apiGames = /api/games
 
+GET {{host}}:{{port}}{{apiGames}}/1
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/0
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/0/name/destiny
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/0/category/indie
+###
 POST {{host}}:{{port}}{{apiUsers}}
 Content-Type: application/json
 
@@ -26,3 +34,5 @@ Content-Type: application/json
     "foto_perfil_url": "",
     "validado": 0
 }
+
+
