@@ -61,6 +61,16 @@ const getNamesByPage = async (req, res)=>{
   }
 }
 
+const deleteById = async (req, res)=>{
+  try {
+    const {gameId} = req.params;
+    const [result] = await gamesModel.remove(gameId);
+    res.json(result);
+  } catch (error) {
+    res.json({fatal: error.message});
+  }
+}
+
 /* const getCategoryByPage = async (req, res)=>{
   try {
     const numberPage = req.params.numberPage;
@@ -73,4 +83,4 @@ const getNamesByPage = async (req, res)=>{
   }
 } */
 
-module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, getCategoryByPage};
+module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, deleteById};

@@ -9,5 +9,6 @@ gRouter.get('/paginate/:numberPage/name/:gameName', gamesController.getNamesByPa
 //gRouter.get('/paginate/:numberPage/category/:gameCategory', gamesController.getCategoryByPage);
 gRouter.get('/:gameId', gamesController.getGame);
 gRouter.post('/insert', gamesController.insertOneGame);
+gRouter.delete('/:gameId', gamesController.deleteById);
 
 module.exports = gRouter;

@@ -78,8 +78,12 @@ const paginationByName = (numberPage, content)=>{
   return db.query(`select * from games where games.name like '%${content}%' limit ${numberPage},50`);
 }
 
+const remove = (gameId)=>{
+  return db.query('delete from games where id = ?', [gameId]);
+}
+
 /* const paginationByCategory = (numberPage, content)=>{
   return db.query(`select * from games where games.category like '%${content}%' limit ${numberPage},50`);
 } */
 
-module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists, getById, pagination, paginationByName, paginationByCategory };
+module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists, getById, pagination, paginationByName, remove };
