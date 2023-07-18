@@ -1,0 +1,12 @@
+@host = http://localhost
+@port = 3000
+@apiUsers = /api/users
+
+POST {{host}}:{{port}}{{apiUsers}}
+Content-Type: application/json
+{
+    "username": "",
+    "password": "",
+    "email": "",
+    "fecha_nacimiento": ""
+}
