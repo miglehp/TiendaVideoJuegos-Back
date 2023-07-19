@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const {createToken} = require('../../helpers/utils');
 
 const User = require("../model/user.model");
 
@@ -41,7 +42,10 @@ const checkLogin = async (req, res) => {
         return res.json({fatal: 'Error en email y/o contraseña'});
     }
 
-    res.json({success: 'Login correcto'});
+    res.json({
+        success: 'Login correcto',
+        token: createToken(user)
+    });
 
 }
 

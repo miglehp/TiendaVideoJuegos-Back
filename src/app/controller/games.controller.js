@@ -71,6 +71,28 @@ const deleteById = async (req, res)=>{
   }
 }
 
+const getByMaxPrice = async (req, res) => {
+
+  try {
+    const [games] = await gamesModel.orderFromMaxPrice();
+    res.json(games);
+  } catch (error) {
+    res.json({fatal: error.message});
+  }
+
+}
+
+const getByMinPrice = async (req, res) => {
+
+  try {
+    const [games] = await gamesModel.orderFromMinPrice();
+    res.json(games);
+  } catch (error) {
+    res.json({fatal: error.message});
+  }
+
+}
+
 /* const getCategoryByPage = async (req, res)=>{
   try {
     const numberPage = req.params.numberPage;
@@ -83,4 +105,4 @@ const deleteById = async (req, res)=>{
   }
 } */
 
-module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, deleteById};
+module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, deleteById, getByMaxPrice, getByMinPrice};

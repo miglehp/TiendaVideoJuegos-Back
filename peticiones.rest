@@ -11,13 +11,17 @@ GET {{host}}:{{port}}{{apiGames}}/paginate/0/name/destiny
 ###
 GET {{host}}:{{port}}{{apiGames}}/paginate/0/category/indie
 ###
+GET {{host}}:{{port}}{{apiGames}}/maxPrice
+###
+GET {{host}}:{{port}}{{apiGames}}/minPrice
+###
 POST {{host}}:{{port}}{{apiUsers}}/register
 Content-Type: application/json
 
 {
-    "username": "holi",
+    "username": "unoMas",
     "password": "holamigos",
-    "email": "yepa@gmail.com",
+    "email": "hello@gmail.com",
     "fecha_nacimiento": "1980-12-05"
 }
 ###
@@ -25,15 +29,16 @@ POST {{host}}:{{port}}{{apiUsers}}/login
 Content-Type: application/json
 
 {
-    "username": "holi",
+    "username": "unoMas",
     "password": "holamigos",
-    "email": "yepa@gmail.com",
+    "email": "hello@gmail.com",
     "fecha_nacimiento": "1980-12-05"
 }
 ###
 
 PUT {{host}}:{{port}}{{apiUsers}}/1
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJSb2xlIjowLCJleHAiOjE2OTIzNjU1OTksImlhdCI6MTY4OTc3MzU5OX0.ZmJ6FljAQAGhCtji5SrtD4I0LD_WYDca9rZYip9tRcg
 
 {
     "username": "rafael",
