@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `ecomercedb`.`games` (
   `name` TINYTEXT NULL,
   `detailed_description` LONGTEXT NULL,
   `about_the_game` MEDIUMTEXT NULL,
-  `short_description` TINYTEXT NULL,
+  `short_description` MEDIUMTEXT NULL,
   `header_image` VARCHAR(200) NULL,
   `capsule_image` VARCHAR(200) NULL,
   `capsule_imagev5` VARCHAR(200) NULL,
@@ -74,7 +74,8 @@ DROP TABLE IF EXISTS `ecomercedb`.`genres` ;
 CREATE TABLE IF NOT EXISTS `ecomercedb`.`genres` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `description_UNIQUE` (`description` ASC))
 ENGINE = InnoDB;
 
 
@@ -111,7 +112,7 @@ DROP TABLE IF EXISTS `ecomercedb`.`users` ;
 CREATE TABLE IF NOT EXISTS `ecomercedb`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(200) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `active` TINYINT NOT NULL DEFAULT 1,
   `fecha_nacimiento` DATE NOT NULL,
