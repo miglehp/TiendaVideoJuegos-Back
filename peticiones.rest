@@ -3,7 +3,7 @@
 @apiUsers = /api/users
 @apiGames = /api/games
 
-GET {{host}}:{{port}}{{apiGames}}/1
+GET {{host}}:{{port}}{{apiGames}}/50
 ###
 GET {{host}}:{{port}}{{apiGames}}/paginate/0
 ###
@@ -35,4 +35,5 @@ Content-Type: application/json
     "validado": 0
 }
 
-
+###
+DELETE {{host}}:{{port}}{{apiGames}}/50
