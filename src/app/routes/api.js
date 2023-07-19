@@ -4,7 +4,9 @@ const uRouter = require('./api/users.api.js');
 
 const router = Router();
 
+const { checkToken } = require('../../helpers/middleware');
+
 router.use('/games', gRouter);
-router.use('/users', uRouter);
+router.use('/users', checkToken, uRouter);
 
 module.exports = { router };
