@@ -7,6 +7,6 @@ const router = Router();
 const { checkToken } = require('../../helpers/middleware');
 
 router.use('/games', gRouter);
-router.use('/users', checkToken, uRouter);
+router.use('/users', uRouter);
 
 module.exports = { router };

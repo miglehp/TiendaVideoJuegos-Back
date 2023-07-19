@@ -15,9 +15,9 @@ POST {{host}}:{{port}}{{apiUsers}}/register
 Content-Type: application/json
 
 {
-    "username": "holi",
+    "username": "unoMas",
     "password": "holamigos",
-    "email": "yepa@gmail.com",
+    "email": "hello@gmail.com",
     "fecha_nacimiento": "1980-12-05"
 }
 ###
@@ -25,9 +25,9 @@ POST {{host}}:{{port}}{{apiUsers}}/login
 Content-Type: application/json
 
 {
-    "username": "holi",
+    "username": "unoMas",
     "password": "holamigos",
-    "email": "yepa@gmail.com",
+    "email": "hello@gmail.com",
     "fecha_nacimiento": "1980-12-05"
 }
 ###

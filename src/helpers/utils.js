@@ -5,10 +5,10 @@ const createToken = (user) => {
     const obj = {
         userId: user.id,
         userRole: user.es_admin,
-        exp: dayjs().add(30, 'days').unix
+        exp: dayjs().add(30, 'days').unix()
     }
 
-    return jwt.sign(obj, 'algo facil');
+    return jwt.sign(obj, 'algo facil')
 
 }
 
