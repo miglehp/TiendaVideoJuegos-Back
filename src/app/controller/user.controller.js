@@ -1,6 +1,11 @@
+const bcrypt = require('bcryptjs');
+
 const User = require("../model/user.model");
 
 const create = async (req, res)=>{
+
+    req.body.password = bcrypt.hashSync(req.body.password, 8);
+
     try {
         const [result] = await User.insert(req.body);
         //Quiero que la respuesta de esta petición sea el NUEVO USUARIO CREADO
@@ -23,6 +28,23 @@ const update = async (req, res) => {
     res.json(users[0]);
 }
 
+const checkLogin = async (req, res) => {
+
+    const [arrUser] = await User.getByEmail(req.body.email);
+    if(arrUser.length === 0){
+        return res.json({fatal: 'Error en email y/o contraseña'});
+    }
+
+    const user = arrUser[0];
+    const iguales = bcrypt.compareSync(req.body.password, user.password);
+    if(!iguales){
+        return res.json({fatal: 'Error en email y/o contraseña'});
+    }
+
+    res.json({success: 'Login correcto'});
+
+}
+
 module.exports = {
-    create, update
+    create, update, checkLogin
 }
