@@ -11,6 +11,10 @@ GET {{host}}:{{port}}{{apiGames}}/paginate/0/name/destiny
 ###
 GET {{host}}:{{port}}{{apiGames}}/paginate/0/category/indie
 ###
+GET {{host}}:{{port}}{{apiGames}}/maxPrice
+###
+GET {{host}}:{{port}}{{apiGames}}/minPrice
+###
 POST {{host}}:{{port}}{{apiUsers}}/register
 Content-Type: application/json
 
@@ -34,6 +38,7 @@ Content-Type: application/json
 
 PUT {{host}}:{{port}}{{apiUsers}}/1
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJSb2xlIjowLCJleHAiOjE2OTIzNjU1OTksImlhdCI6MTY4OTc3MzU5OX0.ZmJ6FljAQAGhCtji5SrtD4I0LD_WYDca9rZYip9tRcg
 
 {
     "username": "rafael",
