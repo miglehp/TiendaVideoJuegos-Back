@@ -16,6 +16,10 @@ const getById = (userId) => {
     return db.query('select * from users where id = ?', [userId]);
 }
 
+const getByEmail = (email) => {
+    return db.query('select * from users where email = ?', [email]);
+}
+
 module.exports ={
-    insert, getById, updateById
+    insert, getById, updateById, getByEmail
 }

@@ -5,8 +5,8 @@ const uRouter = Router();
 
 
 
-
-uRouter.post('/', usersController.create);
+uRouter.post('/register', usersController.create);
+uRouter.post('/login', usersController.checkLogin);
 uRouter.put('/:userId', usersController.update);
 
 module.exports = uRouter;
