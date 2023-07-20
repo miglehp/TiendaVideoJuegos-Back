@@ -90,8 +90,12 @@ const orderFromMinPrice = () => {
   return db.query('select * from games order by price asc');
 }
 
-/* const paginationByCategory = (numberPage, content)=>{
-  return db.query(`select * from games where games.category like '%${content}%' limit ${numberPage},50`);
-} */
+const paginationByCategory = (numberPage)=>{
+  return db.query(`select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id limit ${numberPage},50`);
+}
 
-module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists, getById, pagination, paginationByName, remove, orderFromMaxPrice, orderFromMinPrice };
+const filterByCategory = (numberPage, gameCategory)=>{
+  return db.query(`select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id where genres.description like '%${gameCategory}%' limit ${numberPage},50`);
+}
+
+module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists, getById, pagination, paginationByName, remove, orderFromMaxPrice, orderFromMinPrice, paginationByCategory, filterByCategory };
