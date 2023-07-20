@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+/* const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -37,4 +37,4 @@ exports.actualizarEstadoPedido = (req, res) => {
   sendEmail(destinatario, nuevoEstado);
 
   res.json({ mensaje: 'Estado del pedido actualizado correctamente.' });
-};
+}; */
