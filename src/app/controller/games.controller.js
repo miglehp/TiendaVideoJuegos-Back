@@ -93,16 +93,27 @@ const getByMinPrice = async (req, res) => {
 
 }
 
-/* const getCategoryByPage = async (req, res)=>{
+const getCategoryByPage = async (req, res)=>{
   try {
     const numberPage = req.params.numberPage;
-    const gameCategory = req.params.gameCategory;
-    const [gamesByCategory] = await gamesModel.paginationByCategory(numberPage, gameCategory);
+    const [gamesByCategory] = await gamesModel.paginationByCategory(numberPage);
     res.json(gamesByCategory);
     
   } catch (error) {
     res.json({fatal: error.message});
   }
-} */
+}
 
-module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, deleteById, getByMaxPrice, getByMinPrice};
+const filterCategoryByPage = async (req, res)=>{
+  try {
+    const numberPage = req.params.numberPage;
+    const gameCategory = req.params.gameCategory;
+    const [gamesByCategory] = await gamesModel.filterByCategory(numberPage, gameCategory);
+    res.json(gamesByCategory);
+    
+  } catch (error) {
+    res.json({fatal: error.message});
+  }
+}
+
+module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, deleteById, getByMaxPrice, getByMinPrice, getCategoryByPage, filterCategoryByPage};
