@@ -37,7 +37,7 @@ const getGame = async (req, res) => {
 
 const getGamesByPage = async (req, res) => {
   try {
-    const [games] = await gamesModel.pagination(req.params.numberPage);
+    const games = await gamesModel.pagination(req.params.numberPage);
     res.json(games);
   } catch (error) {
     res.json({ fatal: error.message });
