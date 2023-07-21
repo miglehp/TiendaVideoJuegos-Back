@@ -8,26 +8,25 @@ const insertNewGame = (objectGame) => {
   return db.query(
     'INSERT INTO games (steam_app_id, name, detailed_description, about_the_game, short_description, header_image, capsule_image, capsule_imagev5, website, pc_requirements_minimum, pc_requirements_recomended, mac_requirements, linux_requirements, developers, publishers, price, release_date, support_info_url, suport_info_email)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     [
-        objectGame.steam_app_id,
-        objectGame.name ? objectGame.name : null,
-        objectGame.detailed_description ? objectGame.detailed_description : null,
-        objectGame.about_the_game ? objectGame.about_the_game : null,
-        objectGame.short_description ? objectGame.short_description.slice(0, 255) : null,
-        objectGame.header_image ? objectGame.header_image : null,
-        objectGame.capsule_image ? objectGame.capsule_image : null,
-        objectGame.capsule_imagev5 ? objectGame.capsule_imagev5 : null,
-        objectGame.website ? objectGame.website : null,
-        objectGame.pc_requirements_minimum ? objectGame.pc_requirements_minimum : null,
-        objectGame.pc_requirements_recommended ? objectGame.pc_requirements_recommended : null,
-        objectGame.mac_requirements ? objectGame.mac_requirements : null,
-        objectGame.linux_requirements ? objectGame.linux_requirements : null,
-        objectGame.developers ? objectGame.developers.join(', ') : null,
-        objectGame.publishers ? objectGame.publishers.join(', ') : null,
-        objectGame.price,
-        objectGame.release_date ? objectGame.release_date : null,
-        objectGame.support_info_url ? objectGame.support_info_url : null,
-        objectGame.suport_info_email ? objectGame.suport_info_email : null,
-        
+      objectGame.steam_app_id,
+      objectGame.name ? objectGame.name : null,
+      objectGame.detailed_description ? objectGame.detailed_description : null,
+      objectGame.about_the_game ? objectGame.about_the_game : null,
+      objectGame.short_description ? objectGame.short_description.slice(0, 255) : null,
+      objectGame.header_image ? objectGame.header_image : null,
+      objectGame.capsule_image ? objectGame.capsule_image : null,
+      objectGame.capsule_imagev5 ? objectGame.capsule_imagev5 : null,
+      objectGame.website ? objectGame.website : null,
+      objectGame.pc_requirements_minimum ? objectGame.pc_requirements_minimum : null,
+      objectGame.pc_requirements_recommended ? objectGame.pc_requirements_recommended : null,
+      objectGame.mac_requirements ? objectGame.mac_requirements : null,
+      objectGame.linux_requirements ? objectGame.linux_requirements : null,
+      objectGame.developers ? objectGame.developers.join(', ') : null,
+      objectGame.publishers ? objectGame.publishers.join(', ') : null,
+      objectGame.price,
+      objectGame.release_date ? objectGame.release_date : null,
+      objectGame.support_info_url ? objectGame.support_info_url : null,
+      objectGame.suport_info_email ? objectGame.suport_info_email : null,
     ]
   );
 };
@@ -68,34 +67,63 @@ const insertGenreAndRelationIfNotExists = async (gameId, genre) => {
 
 const getById = (gameId) => {
   return db.query('select * from games where id = ?', [gameId]);
-}
+};
 
-const pagination = (numberPage) => {
-  return db.query(`select * from games limit ${numberPage},50`);
-}
+const pagination = async (numberPage = 1) => {
+  const startingGame = (numberPage - 1) * 12;
+  const totalGameCount = await db.query('SELECT COUNT(*) AS total_registros FROM ecomercedb.games');
+  const totalGames = totalGameCount[0][0].total_registros;
+  const result = await db.query(`select * from games limit ${startingGame}, 12`);
 
-const paginationByName = (numberPage, content)=>{
+  return {
+    current_page: Number(numberPage),
+    max_pages: Math.ceil(totalGames / 12),
+    result: result[0],
+  };
+};
+
+const paginationByName = (numberPage = 1, content) => {
   return db.query(`select * from games where games.name like '%${content}%' limit ${numberPage},50`);
-}
+};
 
-const remove = (gameId)=>{
+const remove = (gameId) => {
   return db.query('delete from games where id = ?', [gameId]);
-}
+};
 
 const orderFromMaxPrice = () => {
   return db.query('select * from games order by price desc');
-}
+};
 
 const orderFromMinPrice = () => {
   return db.query('select * from games order by price asc');
-}
+};
 
-const paginationByCategory = (numberPage)=>{
-  return db.query(`select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id limit ${numberPage},50`);
-}
+const paginationByCategory = (numberPage) => {
+  return db.query(
+    `select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id limit ${numberPage},50`
+  );
+};
 
-const filterByCategory = (numberPage, gameCategory)=>{
-  return db.query(`select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id where genres.description like '%${gameCategory}%' limit ${numberPage},50`);
-}
+const filterByCategory = (numberPage, gameCategory) => {
+  return db.query(
+    `select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id where genres.description like '%${gameCategory}%' limit ${numberPage},50`
+  );
+};
 
-module.exports = { getGames, insertNewGame, insertScreenshot, insertGenreIfNotExists, insertGameGenreRelation, getGenreIdByDescription, insertGenreAndRelationIfNotExists, getById, pagination, paginationByName, remove, orderFromMaxPrice, orderFromMinPrice, paginationByCategory, filterByCategory };
+module.exports = {
+  getGames,
+  insertNewGame,
+  insertScreenshot,
+  insertGenreIfNotExists,
+  insertGameGenreRelation,
+  getGenreIdByDescription,
+  insertGenreAndRelationIfNotExists,
+  getById,
+  pagination,
+  paginationByName,
+  remove,
+  orderFromMaxPrice,
+  orderFromMinPrice,
+  paginationByCategory,
+  filterByCategory,
+};
