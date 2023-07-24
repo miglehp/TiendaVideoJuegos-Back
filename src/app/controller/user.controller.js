@@ -17,6 +17,10 @@ const create = async (req, res)=>{
     }
 }
 
+const profile = async (req, res) => {
+    res.json(req.user);
+}
+
 const update = async (req, res) => {
     const { userId } = req.params;
     console.log(userId);
@@ -50,5 +54,5 @@ const checkLogin = async (req, res) => {
 }
 
 module.exports = {
-    create, update, checkLogin
+    create, update, checkLogin, profile
 }
