@@ -101,6 +101,10 @@ const getGenresFromGameId = (gameId) => {
   )
 }
 
+const getGenres = () => {
+  return db.query(`SELECT * FROM genres ORDER BY description ASC;`)
+}
+
 const getByGenre = (genre) => {
   return db.query(
     `SELECT * FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ?;`,
@@ -142,5 +146,6 @@ module.exports = {
   orderFromMinPrice,
   getGenresFromGameId,
   getByGenre,
-  genrePagination
+  genrePagination,
+  getGenres
 };

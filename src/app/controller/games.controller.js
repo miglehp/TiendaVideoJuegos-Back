@@ -74,6 +74,15 @@ const getByMinPrice = async (req, res) => {
   }
 };
 
+const getAllGenres = async (req, res) => {
+  try {
+    const [genres] = await gamesModel.getGenres();
+    res.json(genres);
+  } catch (error) {
+    res.json({fatal: error.message})
+  }
+}
+
 const getAllGamesByGenre = async (req, res) => {
   try {
     const genre = req.params.genreDescription;
@@ -103,4 +112,5 @@ module.exports = {
   getByMinPrice,
   getAllGamesByGenre,
   getGamesByGenreAndPage,
+  getAllGenres
 };
