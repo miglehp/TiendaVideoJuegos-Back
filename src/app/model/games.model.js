@@ -70,14 +70,14 @@ const getById = (gameId) => {
 };
 
 const pagination = async (numberPage = 1) => {
-  const startingGame = (numberPage - 1) * 12;
+  const startingGame = (numberPage - 1) * 15;
   const totalGameCount = await db.query('SELECT COUNT(*) AS total_registros FROM ecomercedb.games');
   const totalGames = totalGameCount[0][0].total_registros;
-  const result = await db.query(`select * from games limit ${startingGame}, 12`);
+  const result = await db.query(`select * from games limit ${startingGame}, 15`);
 
   return {
     current_page: Number(numberPage),
-    max_pages: Math.ceil(totalGames / 12),
+    max_pages: Math.ceil(totalGames / 15),
     result: result[0],
   };
 };

@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const gamesController = require('../../controller/games.controller.js');
+const gamesController = require('../../controller/games.controller');
 
-const gRouter = Router(); 
+const gRouter = Router();
 
 gRouter.get('/', gamesController.getAll);
 gRouter.get('/maxPrice', gamesController.getByMaxPrice);
