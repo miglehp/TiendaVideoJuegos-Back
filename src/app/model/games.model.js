@@ -82,10 +82,6 @@ const pagination = async (numberPage = 1) => {
   };
 };
 
-const paginationByName = (numberPage = 1, content) => {
-  return db.query(`select * from games where games.name like '%${content}%' limit ${numberPage},50`);
-};
-
 const remove = (gameId) => {
   return db.query('delete from games where id = ?', [gameId]);
 };
@@ -98,17 +94,42 @@ const orderFromMinPrice = () => {
   return db.query('select * from games order by price asc');
 };
 
-const paginationByCategory = (numberPage) => {
+const getGenresFromGameId = (gameId) => {
   return db.query(
-    `select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id limit ${numberPage},50`
-  );
-};
+    'SELECT gn.description FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE g.id = ?;',
+    [gameId]
+  )
+}
 
-const filterByCategory = (numberPage, gameCategory) => {
+const getGenres = () => {
+  return db.query(`SELECT * FROM genres ORDER BY description ASC;`)
+}
+
+const getByGenre = (genre) => {
   return db.query(
-    `select games.*, genres.description as 'category' from games_has_genres join games on games.id = games_has_genres.games_id join genres on genres.id = games_has_genres.genres_id where genres.description like '%${gameCategory}%' limit ${numberPage},50`
+    `SELECT * FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ?;`,
+    [genre]
+  )
+}
+
+const genrePagination = async (genre, numberPage) => {
+  const startingGame = (numberPage - 1) * 15;
+  const totalGameCount = await db.query(
+    `SELECT COUNT(g.id) AS total_juegos FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ?;`,
+    [genre]
   );
-};
+  const totalGames = totalGameCount[0][0].total_juegos;
+  const result = await db.query(
+    `SELECT * FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ? LIMIT ${startingGame}, 15;`,
+    [genre]
+  );
+
+  return {
+    current_page: Number(numberPage),
+    max_pages: Math.ceil(totalGames / 15),
+    result: result[0],
+  };
+}
 
 module.exports = {
   getGames,
@@ -120,10 +141,11 @@ module.exports = {
   insertGenreAndRelationIfNotExists,
   getById,
   pagination,
-  paginationByName,
   remove,
   orderFromMaxPrice,
   orderFromMinPrice,
-  paginationByCategory,
-  filterByCategory,
+  getGenresFromGameId,
+  getByGenre,
+  genrePagination,
+  getGenres
 };
