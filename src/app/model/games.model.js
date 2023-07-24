@@ -86,14 +86,6 @@ const remove = (gameId) => {
   return db.query('delete from games where id = ?', [gameId]);
 };
 
-const orderFromMaxPrice = () => {
-  return db.query('select * from games order by price desc');
-};
-
-const orderFromMinPrice = () => {
-  return db.query('select * from games order by price asc');
-};
-
 const getGenresFromGameId = (gameId) => {
   return db.query(
     'SELECT gn.description FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE g.id = ?;',
@@ -131,6 +123,32 @@ const genrePagination = async (genre, numberPage) => {
   };
 }
 
+const getByTitle = (gameTitle) => {
+  return db.query(
+    `SELECT * FROM games WHERE name LIKE ?;`,
+    [`%${gameTitle}%`]
+  )
+}
+
+const titlePagination = async (gameTitle, numberPage) => {
+  const startingGame = (numberPage - 1) * 15;
+  const totalGameCount = await db.query(
+    `SELECT COUNT(id) AS total_juegos FROM games WHERE name LIKE ?;`,
+    [`%${gameTitle}%`]
+  );
+  const totalGames = totalGameCount[0][0].total_juegos;
+  const result = await db.query(
+    `SELECT * FROM games WHERE name LIKE ? LIMIT ${startingGame}, 15;`,
+    [`%${gameTitle}%`]
+  );
+
+  return {
+    current_page: Number(numberPage),
+    max_pages: Math.ceil(totalGames / 15),
+    result: result[0],
+  };
+}
+
 module.exports = {
   getGames,
   insertNewGame,
@@ -142,10 +160,10 @@ module.exports = {
   getById,
   pagination,
   remove,
-  orderFromMaxPrice,
-  orderFromMinPrice,
   getGenresFromGameId,
   getByGenre,
   genrePagination,
-  getGenres
+  getGenres,
+  getByTitle,
+  titlePagination
 };
