@@ -89,7 +89,7 @@ DROP TABLE IF EXISTS `ecomercedb`.`pedidos` ;
 CREATE TABLE IF NOT EXISTS `ecomercedb`.`pedidos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `users_id` INT NOT NULL,
-  `estado` ENUM('pendiente', 'preparacion', 'enviado') NOT NULL DEFAULT 'pendiente',
+  `estado` ENUM('pendiente', 'preparacion', 'enviado', 'cancelado') NOT NULL DEFAULT 'pendiente',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

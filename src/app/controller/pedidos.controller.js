@@ -82,4 +82,20 @@ const newPedidoWithGames = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getFromUserId, getById, newPedidoWithGames };
+const updateState = async (req, res) => {
+  try {
+    if (req.esAdmin) {
+      const [pedido] = await pedidosModel.update(req.params.pedidoId, req.body.estado);
+      res.json({
+        message: 'Se ha actualizado el estado del pedido',
+        response: pedido,
+      });
+    } else {
+      res.json({ fatal: 'Solo los administradores pueden revisar todos los pedidos' });
+    }
+  } catch (e) {
+    res.json({ fatal: e.message });
+  }
+}
+
+module.exports = { getAll, getFromUserId, getById, newPedidoWithGames, updateState };
