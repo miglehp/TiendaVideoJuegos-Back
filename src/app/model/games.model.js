@@ -151,7 +151,7 @@ const genreAndTitlePagination = async (genre, title, numberPage) => {
     max_pages: Math.ceil(totalGames / 15),
     result: result[0],
   };
-}
+};
 
 module.exports = {
   getGames,
@@ -170,5 +170,5 @@ module.exports = {
   getGenres,
   getByTitle,
   titlePagination,
-  genreAndTitlePagination
+  genreAndTitlePagination,
 };

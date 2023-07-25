@@ -6,11 +6,11 @@ const getAllJuegosFromSteam = async () => {
   return arrJuegos;
 };
 
-const getDetallesJuegoFromSteam = async (steamId) =>{
-    const response = await axios.get(`http://store.steampowered.com/api/appdetails?appids=${steamId}`);
-    let detallesJuego = response.data;
-    detallesJuego = detallesJuego[steamId].data;
-    return detallesJuego;
-}
+const getDetallesJuegoFromSteam = async (steamId) => {
+  const response = await axios.get(`http://store.steampowered.com/api/appdetails?appids=${steamId}`);
+  let detallesJuego = response.data;
+  detallesJuego = detallesJuego[steamId].data;
+  return detallesJuego;
+};
 
 module.exports = { getAllJuegosFromSteam, getDetallesJuegoFromSteam };

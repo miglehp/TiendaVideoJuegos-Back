@@ -2,28 +2,27 @@ const jwt = require('jsonwebtoken');
 const User = require('../app/model/user.model');
 
 const checkToken = async (req, res, next) => {
+  if (!req.headers['authorization']) {
+    return res.json({ fatal: "Necesitas la cabecera de autenticación: 'authorization'" });
+  }
 
-    if(!req.headers['authorization']){
-        return res.json({fatal: 'Necesitas la cabecera de autenticación: \'authorization\''});
-    }
+  const token = req.headers['authorization'];
 
-    const token = req.headers['authorization'];
+  let obj;
+  try {
+    obj = jwt.verify(token, 'algo facil');
+  } catch (error) {
+    return res.json({ fatal: error.message });
+  }
 
-    let obj;
-    try {
-        obj = jwt.verify(token, 'algo facil');
-    } catch (error) {
-        return res.json({fatal: error.message})
-    }
+  const [arrUser] = await User.getById(obj.userId);
 
-    const [arrUser] = await User.getById(obj.userId);
+  req.user = arrUser[0];
+  req.esAdmin = Boolean(req.user.es_admin);
 
-    req.user = arrUser[0];
-    req.esAdmin = Boolean(req.user.es_admin);
-
-    next();
-}
+  next();
+};
 
 module.exports = {
-    checkToken
-}
+  checkToken,
+};
