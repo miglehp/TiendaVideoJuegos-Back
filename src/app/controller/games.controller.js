@@ -101,6 +101,16 @@ const getGamesByTitleAndPage = async (req, res) => {
   }
 }
 
+const genreAndTitlePagination = async (req, res) => {
+  try {
+    const params = req.params;
+    const games = await gamesModel.genreAndTitlePagination(params.genreDescription ,params.gameTitle, params.numberPage);
+    res.json(games);
+  } catch (error) {
+    res.json({ fatal: error.message });
+  }
+}
+
 module.exports = {
   getAll,
   insertOneGame,
@@ -111,5 +121,6 @@ module.exports = {
   getGamesByGenreAndPage,
   getAllGenres,
   getGamesByTitle,
-  getGamesByTitleAndPage
+  getGamesByTitleAndPage,
+  genreAndTitlePagination
 };

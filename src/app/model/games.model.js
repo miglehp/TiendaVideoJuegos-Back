@@ -87,22 +87,16 @@ const remove = (gameId) => {
 };
 
 const getGenresFromGameId = (gameId) => {
-  return db.query(
-    'SELECT gn.description FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE g.id = ?;',
-    [gameId]
-  )
-}
+  return db.query('SELECT gn.description FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE g.id = ?;', [gameId]);
+};
 
 const getGenres = () => {
-  return db.query(`SELECT * FROM genres ORDER BY description ASC;`)
-}
+  return db.query(`SELECT * FROM genres ORDER BY description ASC;`);
+};
 
 const getByGenre = (genre) => {
-  return db.query(
-    `SELECT * FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ?;`,
-    [genre]
-  )
-}
+  return db.query(`SELECT * FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ?;`, [genre]);
+};
 
 const genrePagination = async (genre, numberPage) => {
   const startingGame = (numberPage - 1) * 15;
@@ -112,8 +106,8 @@ const genrePagination = async (genre, numberPage) => {
   );
   const totalGames = totalGameCount[0][0].total_juegos;
   const result = await db.query(
-    `SELECT * FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ? LIMIT ${startingGame}, 15;`,
-    [genre]
+    `SELECT g.* FROM games AS g JOIN games_has_genres AS gg ON g.id = gg.games_id JOIN genres AS gn ON gg.genres_id = gn.id WHERE gn.description = ? LIMIT ?, 15;`,
+    [genre, startingGame]
   );
 
   return {
@@ -121,25 +115,35 @@ const genrePagination = async (genre, numberPage) => {
     max_pages: Math.ceil(totalGames / 15),
     result: result[0],
   };
-}
+};
 
 const getByTitle = (gameTitle) => {
-  return db.query(
-    `SELECT * FROM games WHERE name LIKE ?;`,
-    [`%${gameTitle}%`]
-  )
-}
+  return db.query(`SELECT * FROM games WHERE name LIKE ?;`, [`%${gameTitle}%`]);
+};
 
 const titlePagination = async (gameTitle, numberPage) => {
   const startingGame = (numberPage - 1) * 15;
+  const totalGameCount = await db.query(`SELECT COUNT(id) AS total_juegos FROM games WHERE name LIKE ?;`, [`%${gameTitle}%`]);
+  const totalGames = totalGameCount[0][0].total_juegos;
+  const result = await db.query(`SELECT * FROM games WHERE name LIKE ? LIMIT ${startingGame}, 15;`, [`%${gameTitle}%`]);
+
+  return {
+    current_page: Number(numberPage),
+    max_pages: Math.ceil(totalGames / 15),
+    result: result[0],
+  };
+};
+
+const genreAndTitlePagination = async (genre, title, numberPage) => {
+  const startingGame = (numberPage - 1) * 15;
   const totalGameCount = await db.query(
-    `SELECT COUNT(id) AS total_juegos FROM games WHERE name LIKE ?;`,
-    [`%${gameTitle}%`]
+    `SELECT COUNT (g.id) AS total_juegos FROM games AS g, games_has_genres AS gg, genres AS gn WHERE g.id = gg.games_id AND gg.genres_id = gn.id AND gn.description = ? AND g.name LIKE ?;`,
+    [genre, `%${title}%`]
   );
   const totalGames = totalGameCount[0][0].total_juegos;
   const result = await db.query(
-    `SELECT * FROM games WHERE name LIKE ? LIMIT ${startingGame}, 15;`,
-    [`%${gameTitle}%`]
+    `SELECT g.* FROM games AS g, games_has_genres AS gg, genres AS gn WHERE g.id = gg.games_id AND gg.genres_id = gn.id AND gn.description = ? AND g.name LIKE ? LIMIT ?, 15;`,
+    [genre, `%${title}%`, startingGame]
   );
 
   return {
@@ -165,5 +169,6 @@ module.exports = {
   genrePagination,
   getGenres,
   getByTitle,
-  titlePagination
+  titlePagination,
+  genreAndTitlePagination
 };
