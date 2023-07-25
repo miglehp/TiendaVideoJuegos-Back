@@ -1,3 +1,4 @@
+const {Router} = require('express')
 //const nodemailer = require('nodemailer');
 const gRouter = require('./api/games.api.js');
 const uRouter = require('./api/users.api.js');
