@@ -1,4 +1,5 @@
 const pedidosModel = require('../model/pedidos.model');
+const db = require('../../config/db');
 
 /* req.user
 {
@@ -60,6 +61,25 @@ const getFromUserId = async (req, res) => {
   }
 };
 
+const newPedidoWithGames = async (req, res) => {
+  try {
+    await db.query('START TRANSACTION;');
+    let newPedido = await pedidosModel.newPedido(req.user.id);
+    let pedidoId = newPedido[0].insertId;
+    let gamesIds = req.body.games;
+    for (const gameId of gamesIds) {
+      await pedidosModel.newGameForPedido(pedidoId, gameId);
+    }
+    await db.query('COMMIT;');
+    res.json({
+      success: true,
+      message: `se han insertado los juegos en el pedido ${pedidoId}`,
+      juegos: gamesIds
+    })
+  } catch (error) {
+    await db.query('ROLLBACK;');
+    res.json({ fatal: 'Error al crear el pedido.', error: error.message });
+  }
+};
 
-
-module.exports = { getAll, getFromUserId, getById };
+module.exports = { getAll, getFromUserId, getById, newPedidoWithGames };

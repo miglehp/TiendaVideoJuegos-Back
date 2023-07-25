@@ -6,6 +6,8 @@ const getFromUserId = (id) => db.query('SELECT * FROM pedidos WHERE users_id = ?
 
 const getById = (id) => db.query('SELECT * FROM pedidos WHERE id = ?;', [id]);
 
-const newPedido = () => db.query();
+const newPedido = (userId) => db.query('INSERT INTO pedidos (users_id) VALUES (?)', [userId]);
 
-module.exports = { get, getFromUserId, getById };
+const newGameForPedido = (pedidoId, gameId) => db.query('INSERT INTO pedidos_has_games (pedidos_id, games_id) VALUES (?, ?);', [pedidoId, gameId]);
+
+module.exports = { get, getFromUserId, getById, newPedido, newGameForPedido };

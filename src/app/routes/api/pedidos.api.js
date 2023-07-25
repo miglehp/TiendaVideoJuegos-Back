@@ -9,5 +9,6 @@ pRouter.get('/:pedidoId', pedidosController.getById);
 
 // solo requieren estar logado
 pRouter.get('/user', pedidosController.getFromUserId);
+pRouter.post('/new', pedidosController.newPedidoWithGames);
 
 module.exports = pRouter;
