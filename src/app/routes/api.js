@@ -1,6 +1,6 @@
 const {Router} = require('express')
 //const nodemailer = require('nodemailer');
-const { Router } = require('express');
+
 const { checkToken } = require('../../helpers/middleware');
 const gRouter = require('./api/games.api.js');
 const uRouter = require('./api/users.api.js');
