@@ -16,6 +16,8 @@ gRouter.get('/genre/:genreDescription/paginate/:numberPage', gamesController.get
 gRouter.get('/title/:gameTitle', gamesController.getGamesByTitle);
 gRouter.get('/title/:gameTitle/paginate/:numberPage', gamesController.getGamesByTitleAndPage);
 
+// Filtrado por titulo && genero con paginación
+gRouter.get('/genre/:genreDescription/title/:gameTitle/paginate/:numberPage', gamesController.genreAndTitlePagination);
 
 // Obetener 1 juego por ID
 gRouter.get('/:gameId', gamesController.getGame);
