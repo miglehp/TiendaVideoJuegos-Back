@@ -74,8 +74,8 @@ const newPedidoWithGames = async (req, res) => {
     res.json({
       success: true,
       message: `se han insertado los juegos en el pedido ${pedidoId}`,
-      juegos: gamesIds
-    })
+      juegos: gamesIds,
+    });
   } catch (error) {
     await db.query('ROLLBACK;');
     res.json({ fatal: 'Error al crear el pedido.', error: error.message });
@@ -96,6 +96,6 @@ const updateState = async (req, res) => {
   } catch (e) {
     res.json({ fatal: e.message });
   }
-}
+};
 
 module.exports = { getAll, getFromUserId, getById, newPedidoWithGames, updateState };

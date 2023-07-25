@@ -8,7 +8,6 @@ const { checkToken } = require('../../helpers/middleware');
 
 const router = Router();
 
-
 /* const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth:{
