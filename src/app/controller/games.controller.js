@@ -26,9 +26,11 @@ const insertOneGame = async (req, res) => {
 const getGame = async (req, res) => {
   try {
     const [games] = await gamesModel.getById(req.params.gameId);
+    const [genres] = await gamesModel.getGenresFromGameId(req.params.gameId);
     if (games.length === 0) {
       return res.json({ fatal: 'No existe un juego con ese ID' });
     }
+    games[0].genres = genres;
     res.json(games[0]);
   } catch (error) {
     res.json({ fatal: error.message });
@@ -44,17 +46,6 @@ const getGamesByPage = async (req, res) => {
   }
 };
 
-const getNamesByPage = async (req, res) => {
-  try {
-    const numberPage = req.params.numberPage;
-    const gameName = req.params.gameName;
-    const [gamesByName] = await gamesModel.paginationByName(numberPage, gameName);
-    res.json(gamesByName);
-  } catch (error) {
-    res.json({ fatal: error.message });
-  }
-};
-
 const deleteById = async (req, res) => {
   try {
     const { gameId } = req.params;
@@ -65,43 +56,60 @@ const deleteById = async (req, res) => {
   }
 };
 
-const getByMaxPrice = async (req, res) => {
+const getAllGenres = async (req, res) => {
   try {
-    const [games] = await gamesModel.orderFromMaxPrice();
+    const [genres] = await gamesModel.getGenres();
+    res.json(genres);
+  } catch (error) {
+    res.json({fatal: error.message})
+  }
+};
+
+const getAllGamesByGenre = async (req, res) => {
+  try {
+    const [games] = await gamesModel.getByGenre(req.params.genreDescription);
     res.json(games);
   } catch (error) {
     res.json({ fatal: error.message });
   }
 };
 
-const getByMinPrice = async (req, res) => {
+const getGamesByGenreAndPage = async (req, res) => {
   try {
-    const [games] = await gamesModel.orderFromMinPrice();
+    const games = await gamesModel.genrePagination(req.params.genreDescription, req.params.numberPage);
     res.json(games);
   } catch (error) {
     res.json({ fatal: error.message });
   }
 };
 
-const getCategoryByPage = async (req, res) => {
+const getGamesByTitle = async (req, res) => {
   try {
-    const numberPage = req.params.numberPage;
-    const [gamesByCategory] = await gamesModel.paginationByCategory(numberPage);
-    res.json(gamesByCategory);
+    const [games] = await gamesModel.getByTitle(req.params.gameTitle);
+    res.json(games)
+  } catch (error) {
+    res.json({fatal: error.message})
+  }
+}
+
+const getGamesByTitleAndPage = async (req, res) => {
+  try {
+    const games = await gamesModel.titlePagination(req.params.gameTitle, req.params.numberPage);
+    res.json(games);
   } catch (error) {
     res.json({ fatal: error.message });
   }
-};
+}
 
-const filterCategoryByPage = async (req, res) => {
-  try {
-    const numberPage = req.params.numberPage;
-    const gameCategory = req.params.gameCategory;
-    const [gamesByCategory] = await gamesModel.filterByCategory(numberPage, gameCategory);
-    res.json(gamesByCategory);
-  } catch (error) {
-    res.json({ fatal: error.message });
-  }
+module.exports = {
+  getAll,
+  insertOneGame,
+  getGame,
+  getGamesByPage,
+  deleteById,
+  getAllGamesByGenre,
+  getGamesByGenreAndPage,
+  getAllGenres,
+  getGamesByTitle,
+  getGamesByTitleAndPage
 };
-
-module.exports = { getAll, insertOneGame, getGame, getGamesByPage, getNamesByPage, deleteById, getByMaxPrice, getByMinPrice, getCategoryByPage, filterCategoryByPage };
