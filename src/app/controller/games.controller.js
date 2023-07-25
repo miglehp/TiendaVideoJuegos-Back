@@ -56,24 +56,6 @@ const deleteById = async (req, res) => {
   }
 };
 
-const getByMaxPrice = async (req, res) => {
-  try {
-    const [games] = await gamesModel.orderFromMaxPrice();
-    res.json(games);
-  } catch (error) {
-    res.json({ fatal: error.message });
-  }
-};
-
-const getByMinPrice = async (req, res) => {
-  try {
-    const [games] = await gamesModel.orderFromMinPrice();
-    res.json(games);
-  } catch (error) {
-    res.json({ fatal: error.message });
-  }
-};
-
 const getAllGenres = async (req, res) => {
   try {
     const [genres] = await gamesModel.getGenres();
@@ -81,12 +63,11 @@ const getAllGenres = async (req, res) => {
   } catch (error) {
     res.json({fatal: error.message})
   }
-}
+};
 
 const getAllGamesByGenre = async (req, res) => {
   try {
-    const genre = req.params.genreDescription;
-    const [games] = await gamesModel.getByGenre(genre);
+    const [games] = await gamesModel.getByGenre(req.params.genreDescription);
     res.json(games);
   } catch (error) {
     res.json({ fatal: error.message });
@@ -102,15 +83,44 @@ const getGamesByGenreAndPage = async (req, res) => {
   }
 };
 
+const getGamesByTitle = async (req, res) => {
+  try {
+    const [games] = await gamesModel.getByTitle(req.params.gameTitle);
+    res.json(games)
+  } catch (error) {
+    res.json({fatal: error.message})
+  }
+}
+
+const getGamesByTitleAndPage = async (req, res) => {
+  try {
+    const games = await gamesModel.titlePagination(req.params.gameTitle, req.params.numberPage);
+    res.json(games);
+  } catch (error) {
+    res.json({ fatal: error.message });
+  }
+}
+
+const genreAndTitlePagination = async (req, res) => {
+  try {
+    const params = req.params;
+    const games = await gamesModel.genreAndTitlePagination(params.genreDescription ,params.gameTitle, params.numberPage);
+    res.json(games);
+  } catch (error) {
+    res.json({ fatal: error.message });
+  }
+}
+
 module.exports = {
   getAll,
   insertOneGame,
   getGame,
   getGamesByPage,
   deleteById,
-  getByMaxPrice,
-  getByMinPrice,
   getAllGamesByGenre,
   getGamesByGenreAndPage,
-  getAllGenres
+  getAllGenres,
+  getGamesByTitle,
+  getGamesByTitleAndPage,
+  genreAndTitlePagination
 };
