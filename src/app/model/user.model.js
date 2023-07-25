@@ -1,5 +1,9 @@
 const db = require('../../config/db');
 
+const getUsers = () => {
+    return db.query('select * from users');
+}
+
 const insert = ({ username, password, email, fecha_nacimiento }) => {
     return db.query(
         'insert into users (username, password, email, fecha_nacimiento) values (?, ?, ?, ?)', [username, password, email, fecha_nacimiento]
@@ -21,5 +25,5 @@ const getByEmail = (email) => {
 }
 
 module.exports ={
-    insert, getById, updateById, getByEmail
+    insert, getById, updateById, getByEmail, getUsers
 }
