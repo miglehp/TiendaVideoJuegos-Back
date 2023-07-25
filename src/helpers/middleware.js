@@ -1,12 +1,10 @@
 const jwt = require('jsonwebtoken');
-
-const Game = require('../app/model/games.model');
 const User = require('../app/model/user.model');
 
 const checkToken = async (req, res, next) => {
 
     if(!req.headers['authorization']){
-        return res.json({fatal: 'Necesitas la cabecera de autenticación'});
+        return res.json({fatal: 'Necesitas la cabecera de autenticación: \'authorization\''});
     }
 
     const token = req.headers['authorization'];
@@ -19,7 +17,9 @@ const checkToken = async (req, res, next) => {
     }
 
     const [arrUser] = await User.getById(obj.userId);
+
     req.user = arrUser[0];
+    req.esAdmin = Boolean(req.user.es_admin);
 
     next();
 }
