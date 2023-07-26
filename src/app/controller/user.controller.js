@@ -3,6 +3,16 @@ const { createToken } = require('../../helpers/utils');
 
 const User = require('../model/user.model');
 
+const getAll = async (req, res)=>{
+    try {
+        const [users] = await User.getUsers();
+        res.json(users);
+    } catch (error) {
+        res.json({ fatal: error.message });
+    }
+}
+
+
 const create = async (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, 8);
 
@@ -15,6 +25,10 @@ const create = async (req, res) => {
     res.json({ fatal: error.message });
   }
 };
+
+const profile = async (req, res) => {
+    res.json(req.user);
+}
 
 const update = async (req, res) => {
   const { userId } = req.params;
@@ -47,7 +61,5 @@ const checkLogin = async (req, res) => {
 };
 
 module.exports = {
-  create,
-  update,
-  checkLogin,
-};
+    create, update, checkLogin, profile, getAll
+}
