@@ -61,7 +61,7 @@ const getAllGenres = async (req, res) => {
     const [genres] = await gamesModel.getGenres();
     res.json(genres);
   } catch (error) {
-    res.json({fatal: error.message})
+    res.json({ fatal: error.message });
   }
 };
 
@@ -86,11 +86,11 @@ const getGamesByGenreAndPage = async (req, res) => {
 const getGamesByTitle = async (req, res) => {
   try {
     const [games] = await gamesModel.getByTitle(req.params.gameTitle);
-    res.json(games)
+    res.json(games);
   } catch (error) {
-    res.json({fatal: error.message})
+    res.json({ fatal: error.message });
   }
-}
+};
 
 const getGamesByTitleAndPage = async (req, res) => {
   try {
@@ -99,17 +99,17 @@ const getGamesByTitleAndPage = async (req, res) => {
   } catch (error) {
     res.json({ fatal: error.message });
   }
-}
+};
 
 const genreAndTitlePagination = async (req, res) => {
   try {
     const params = req.params;
-    const games = await gamesModel.genreAndTitlePagination(params.genreDescription ,params.gameTitle, params.numberPage);
+    const games = await gamesModel.genreAndTitlePagination(params.genreDescription, params.gameTitle, params.numberPage);
     res.json(games);
   } catch (error) {
     res.json({ fatal: error.message });
   }
-}
+};
 
 module.exports = {
   getAll,
@@ -122,5 +122,5 @@ module.exports = {
   getAllGenres,
   getGamesByTitle,
   getGamesByTitleAndPage,
-  genreAndTitlePagination
+  genreAndTitlePagination,
 };
