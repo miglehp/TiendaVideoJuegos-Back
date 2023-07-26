@@ -5,7 +5,7 @@ const pRouter = Router();
 
 // requieren ser admin
 pRouter.get('/', pedidosController.getAll);
-pRouter.get('/:pedidoId', pedidosController.getById);
+pRouter.get('/id/:pedidoId', pedidosController.getById);
 pRouter.put('/:pedidoId', pedidosController.updateState);
 
 // solo requieren estar logado
