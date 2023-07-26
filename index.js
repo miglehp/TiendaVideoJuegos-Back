@@ -8,9 +8,9 @@ const PORT = process.env.PORT ?? 3000;
 server.listen(PORT);
 
 server.on('listening', () => {
-    console.log(`Servidor escuchando en puerto ${PORT}`);
+  console.log(`Servidor escuchando en puerto ${PORT}`);
 });
 
 server.on('error', (e) => {
-    console.error(e);
+  console.error(e);
 });
