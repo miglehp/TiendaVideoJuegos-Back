@@ -12,4 +12,6 @@ const newGameForPedido = (pedidoId, gameId) => db.query('INSERT INTO pedidos_has
 
 const update = (pedidoId, estado) => db.query(`UPDATE pedidos SET estado = ? WHERE id = ?;`, [estado, pedidoId]);
 
-module.exports = { get, getFromUserId, getById, newPedido, newGameForPedido, update };
+const getGamesFromPedido = (pedidoId) => db.query(`SELECT games_id FROM pedidos_has_games WHERE pedidos_id = ?;`, [pedidoId]);
+
+module.exports = { get, getFromUserId, getById, newPedido, newGameForPedido, update, getGamesFromPedido };

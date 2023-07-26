@@ -36,10 +36,13 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   try {
     if (req.esAdmin) {
-      const [pedidos] = await pedidosModel.getById(req.params.pedidoId);
+      const [pedido] = await pedidosModel.getById(req.params.pedidoId);
+      const [gamesArr] = await pedidosModel.getGamesFromPedido(req.params.pedidoId);
+      let newArr = gamesArr.map((game) => game.games_id);
       res.json({
         message: `Detalles del pedido: ${req.params.pedidoId}`,
-        pedidos: pedidos,
+        pedido: pedido,
+        games: newArr,
       });
     } else {
       res.json({ fatal: 'Solo los administradores pueden revisar todos los pedidos' });
