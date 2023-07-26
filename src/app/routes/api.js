@@ -6,7 +6,7 @@ const gRouter = require('./api/games.api.js');
 const uRouter = require('./api/users.api.js');
 const sRouter = require('./api/screenshots.api');
 const pRouter = require('./api/pedidos.api');
-const { checkToken } = require('../../helpers/middleware');
+
 
 const router = Router();
 
