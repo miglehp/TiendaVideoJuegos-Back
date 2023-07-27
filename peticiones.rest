@@ -1,0 +1,56 @@
+@host = http://localhost
+@port = 3000
+@apiUsers = /api/users
+@apiGames = /api/games
+
+GET {{host}}:{{port}}{{apiGames}}/50
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/0
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/0/name/destiny
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/0/category
+###
+GET {{host}}:{{port}}{{apiGames}}/paginate/50/category/action
+###
+GET {{host}}:{{port}}{{apiGames}}/maxPrice
+###
+GET {{host}}:{{port}}{{apiGames}}/minPrice
+###
+POST {{host}}:{{port}}{{apiUsers}}/register
+Content-Type: application/json
+
+{
+    "username": "unoMas",
+    "password": "holamigos",
+    "email": "hello@gmail.com",
+    "fecha_nacimiento": "1980-12-05"
+}
+###
+POST {{host}}:{{port}}{{apiUsers}}/login
+Content-Type: application/json
+
+{
+    "username": "unoMas",
+    "password": "holamigos",
+    "email": "hello@gmail.com",
+    "fecha_nacimiento": "1980-12-05"
+}
+###
+
+PUT {{host}}:{{port}}{{apiUsers}}/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJSb2xlIjowLCJleHAiOjE2OTIzNjU1OTksImlhdCI6MTY4OTc3MzU5OX0.ZmJ6FljAQAGhCtji5SrtD4I0LD_WYDca9rZYip9tRcg
+
+{
+    "username": "rafael",
+    "password": "holamigos",
+    "email": "otro@gmail.com",
+    "active": 0,
+    "fecha_nacimiento": "1980-06-05",
+    "foto_perfil_url": "",
+    "validado": 0
+}
+
+###
+DELETE {{host}}:{{port}}{{apiGames}}/50
